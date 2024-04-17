@@ -1,5 +1,5 @@
 import sys
-from src.ML_Project_1.logger import logging
+from src.logger import logging
 
 # Extracting information from the System Error
 def error_message_details(error,error_details:sys):

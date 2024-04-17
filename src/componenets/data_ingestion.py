@@ -1,8 +1,8 @@
 import os
 import sys
-from src.ML_Project_1.exception import CustomException
-from src.ML_Project_1.logger import logging
-from src.ML_Project_1.utils import read_sql_data
+from src.exception import CustomException
+from src.logger import logging
+from src.utils import read_sql_data
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -21,12 +21,14 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         try:
             ##reading code
-            df=read_sql_data()
-            # df=pd.read_csv(os.path.join('notebook/data','raw.csv'))
+            # df=read_sql_data()
+            df=pd.read_csv(os.path.join('notebook\\data','raw_data.csv'))
             logging.info('Reading Completed MySQL Database')
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)   # Creating artifacts folder
             df.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)              # Save the raw.csv file
+            
+            logging.info("Train test split initiated")
             train_set,test_set=train_test_split(df,test_size=0.2,random_state=42)               # Splitting the Data into train and test Data
             train_set.to_csv(self.ingestion_config.train_data_path,index=False,header=True)     # Save the train.csv File
             test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True)       # Save the test.csv file
